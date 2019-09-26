@@ -1,0 +1,56 @@
+int i;
+int n1 = 0, n2 = 0;               // Variable to store both digits of the number
+bool p=0,q=0;                     // Variable to store current and previous state of input(sensor value)
+
+void Display(void)                // Function to display the numbers
+{
+    if(n2 == 1   || n2 == 4)            digitalWrite(13,LOW);   else  digitalWrite(13,HIGH);    // for segment A
+    if(n2 == 5   || n2 == 6)            digitalWrite(12,LOW);   else  digitalWrite(12,HIGH);    // for segment B
+    if(n2 == 2)                         digitalWrite(11,LOW);   else  digitalWrite(11,HIGH);    // for segment C
+    if(n2%3 == 1)                       digitalWrite(10,LOW);   else  digitalWrite(10,HIGH);    // for segment D
+    if(n2%2 != 0 || n2 == 4 )           digitalWrite(9 ,LOW);   else  digitalWrite(9 ,HIGH);    // for segment E
+    if(n2 == 7   || (n2>0 && n2 <= 3))  digitalWrite(8 ,LOW);   else  digitalWrite(8 ,HIGH);    // for segment F
+    if(n2 <= 1   || n2 == 7)            digitalWrite(7 ,LOW);   else  digitalWrite(7 ,HIGH);    // for segment G
+  
+    if(n1 == 1   || n1 == 4)            digitalWrite(6 ,LOW);   else  digitalWrite(6 ,HIGH);    // for segment A
+    if(n1 == 5   || n1 == 6)            digitalWrite(5 ,LOW);   else  digitalWrite(5 ,HIGH);    // for segment B
+    if(n1 == 2 )                        digitalWrite(4 ,LOW);   else  digitalWrite(4 ,HIGH);    // for segment C
+    if(n1%3 == 1)                       digitalWrite(3 ,LOW);   else  digitalWrite(3 ,HIGH);    // for segment D
+    if(n1%2 != 0 || n1 == 4)            digitalWrite(2 ,LOW);   else  digitalWrite(2 ,HIGH);    // for segment E
+    if(n1 == 7   || (n1>0 && n1 <= 3))  digitalWrite(1 ,LOW);   else  digitalWrite(1 ,HIGH);    // for segment F
+    if(n1 <= 1   || n1 == 7)            digitalWrite(0 ,LOW);   else  digitalWrite(0 ,HIGH);    // for segment G
+  
+}
+
+
+void count(void)
+{
+  n1++;
+  if(n1 > 9)
+  {
+    n1 = 0;
+    n2++;
+    if(n2 > 9)            // Reset the counter at 99
+      n2 = 0;
+  }  
+}
+
+void setup()
+{
+  pinMode(A0,INPUT);      // To read sensor value
+  for(i=0;i<14;++i)
+    pinMode(i,OUTPUT);    // Use all digital pins(0 to 13) for output
+}
+
+void loop()
+{
+  p = digitalRead(A0);    // Read sensor value
+  
+  if(p!=q && p==1)        // Detect rising edge
+    count();              // Increase the count if a rising edge is detected
+    
+  Display();              // Display n1 & n2
+  
+  q = p;                  // Store previous state of sensor value
+  delay(100);             // Delay 100 ms
+}
