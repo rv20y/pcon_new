@@ -11,12 +11,16 @@ void setup()
 
 void loop()
 {
-
+  String a;
   // Keep reading from HC-05 and send to Arduino Serial Monitor
   if (BTSerial.available())
-    Serial.write(BTSerial.read());
-
+  {
+    a = BTSerial.read();
+    Serial.write(a);
+  }
   // Keep reading from Arduino Serial Monitor and send to HC-05
   if (Serial.available())
-    BTSerial.write(Serial.read());
+  {
+    a = Serial.read();
+    BTSerial.write(a);
 }
