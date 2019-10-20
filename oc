@@ -51,6 +51,7 @@ void loop()
     
   Display();              // Display n1 & n2
   
-  q = p;                  // Store previous state of sensor value
-  delay(100);             // Delay 100 ms
+  q = p;  
+delay(50);                // Store previous state of sensor value
+  delay(50);             // Delay 100 ms
 }
